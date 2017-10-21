@@ -11,22 +11,17 @@ import java.util.Set;
 public class AtWork {
 
     public static void main(String[] args) throws IOException {
-        ServerSocketChannel ssc = ServerSocketChannel.open();
+        ServerSocketChannel ssc = ServerSocketChannel.open(), ssc2 = ServerSocketChannel.open();
         ssc.configureBlocking(false);
-        ServerSocket ss = ssc.socket();
-        ServerSocketChannel ssc2 = ServerSocketChannel.open();
         ssc2.configureBlocking(false);
-        ServerSocket ss2 = ssc2.socket();
-        InetSocketAddress isa9999 = new InetSocketAddress(9999);
+        ServerSocket ss = ssc.socket(), ss2 = ssc2.socket();
+        InetSocketAddress isa9999 = new InetSocketAddress(9999), isa9998 = new InetSocketAddress(9998);
         ss.bind(isa9999);
-        InetSocketAddress isa9998 = new InetSocketAddress(9998);
         ss2.bind(isa9998);
         Selector selector = Selector.open();
-
         ssc.register(selector, SelectionKey.OP_ACCEPT);
         ssc2.register(selector, SelectionKey.OP_ACCEPT);
-        System.out.println("listening on 9999");
-
+        System.out.println("listening on 9999 and 9998");
         while (true) {
             if (selector.select() == 0) {
                 continue;
@@ -52,7 +47,6 @@ public class AtWork {
                 }
             }
             selectionKeys.clear();
-
         }
     }
 }
